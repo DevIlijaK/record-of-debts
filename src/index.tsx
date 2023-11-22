@@ -1,5 +1,8 @@
 import { Elysia } from "elysia";
 import { html } from "@elysiajs/html";
+import { db } from "./db";
+import { dailyBudget } from "./db/schema";
+import { InsertBudget } from "./db/schema/debts";
 
 const app = new Elysia()
   .use(html())
@@ -25,6 +28,13 @@ const app = new Elysia()
       </body>
     </html>
   ))
+  .get("set-daily-budget/:budget", async ({ params: { budget } }) => {
+    const insert = {
+      dailyBudget: Number(budget),
+    } satisfies InsertBudget;
+    console.log("Uslo je ovde! ");
+    await db.insert(dailyBudget).values(insert);
+  })
   .listen(3000);
 
 console.log(
