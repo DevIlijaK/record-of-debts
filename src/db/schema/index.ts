@@ -1,1 +1,1 @@
-export { dailyBudget } from "./debts";
+export { dailyReceipt } from "./debts";
