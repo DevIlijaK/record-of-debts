@@ -1,7 +1,7 @@
 import { createClient, type Config } from "@libsql/client";
 import { drizzle } from "drizzle-orm/libsql";
 import { config } from "../config";
-import * as schema from "./schema/index";
+import * as schema from './schema/index'
 const options = {
   url: config.env.DATABASE_URL,
   authToken: config.env.DATABASE_AUTH_TOKEN,
