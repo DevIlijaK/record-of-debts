@@ -3,149 +3,99 @@ import { html } from "@elysiajs/html";
 import { db } from "./db";
 import { InsertDailyReceipt, dailyReceipt } from "./db/schema/debts";
 import { sql } from "drizzle-orm";
+import { BaseHtml } from "./components/base-html";
+import { DebtForm } from "./components/debt-form";
+import { Difference } from "./components/difference";
 
 const app = new Elysia()
   .use(html())
-  .get("/record-of-debts", () => (
-    <html>
-      <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Praćenje Troškova</title>
-        <link
-          href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
-          rel="stylesheet"
-        />
-        <script
-          src="https://unpkg.com/htmx.org@1.9.9"
-          integrity="sha384-QFjmbokDn2DjBjq+fM+8LUIVrAgqcNW2s0PjAxHETgRn9l4fvX31ZxDxvwQnyMOX"
-          crossorigin="anonymous"
-        ></script>
-      </head>
-      <body class="bg-gray-100 p-8">
+  .get("/record-of-debts", () => {
+    const date = new Date().toISOString().split("T")[0];
+
+    return (
+      <BaseHtml>
         <div class="max-w-md mx-auto bg-white p-6 rounded-md shadow-md">
-          <form xh-swap="none">
-            <h1 class="text-2xl font-semibold mb-4">Praćenje Troškova</h1>
-
-            <div class="mb-4">
-              <label for="date" class="block text-gray-600 text-sm font-medium">
-                Datum
-              </label>
-              <input
-                type="date"
-                id="date"
-                name="date"
-                class="border p-2 w-full"
-                required
-              />
-            </div>
-
-            <div class="mb-4">
-              <label
-                for="dailyBudget"
-                class="block text-gray-600 text-sm font-medium"
-              >
-                Dnevni budžet:
-              </label>
-              <input
-                type="number"
-                id="dailyBudget"
-                name="dailyBudget"
-                value="550"
-                class="border p-2 w-full"
-                required
-              />
-            </div>
-
-            <div class="mb-4">
-              <label
-                for="numberOfMeals"
-                class="block text-gray-600 text-sm font-medium"
-              >
-                Broj porcija:
-              </label>
-              <input
-                type="number"
-                id="numberOfMeals"
-                name="numberOfMeals"
-                value="1"
-                class="border p-2 w-full"
-                required
-              />
-            </div>
-
-            <div class="mb-4">
-              <label
-                for="dailySpent"
-                class="block text-gray-600 text-sm font-medium"
-              >
-                Potrošeno:
-              </label>
-              <input
-                type="text"
-                id="dailySpent"
-                name="dailySpent"
-                class="border p-2 w-full"
-                required
-              />
-            </div>
-
-            <div class="mb-4">
-              <button
-                type="submit"
-                method="post"
-                hx-post="/create"
-                xh-swap="none"
-                class="bg-blue-500 w-full text-white px-4 py-2 rounded-md"
-              >
-                Kreiraj
-              </button>
-            </div>
-          </form>
-
-          <div
-            class="mb-8"
-            hx-get="/difference"
-            hx-target="#calculatedDifference"
-            hx-swap="innerHTML"
-            hx-trigger="load"
-          >
-            <hr class="my-4" />
-            <h2 class="text-xl font-semibold mb-2">Preostali budžet</h2>
-            <p
-              id="calculatedDifference"
-              class="text-lg font-semibold text-green-500"
-            >
-              -
-            </p>
+          <div>
+            <DebtForm date={date} />
+            <Difference />
           </div>
         </div>
-      </body>
-    </html>
-  ))
+      </BaseHtml>
+    );
+  })
+  .get("/example", () => {
+    return (
+      <BaseHtml>
+        <div class="max-w-md mx-auto bg-white p-6 rounded-md shadow-md">
+          <div class="flex flex-wrap">
+            <div class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5 p-4">
+              <div class="bg-white rounded-lg overflow-hidden shadow-md">
+                <div class="p-4">
+                  <h2 class="text-xl font-semibold mb-2">Card 1</h2>
+                  <p class="text-gray-600">Property 1: Lorem ipsum</p>
+                  <p class="text-gray-600">Property 2: Dolor sit amet</p>
+                  <p class="text-gray-600">
+                    Property 3: Consectetur adipiscing
+                  </p>
+                  <p class="text-gray-600">Property 4: Sed do eiusmod</p>
+                </div>
+              </div>
+            </div>
+            <div class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5 p-4">
+              <div class="bg-white rounded-lg overflow-hidden shadow-md">
+                <div class="p-4">
+                  <h2 class="text-xl font-semibold mb-2">Card 3</h2>
+                </div>
+              </div>
+            </div>
+
+            <div class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5 p-4">
+              <div class="bg-white rounded-lg overflow-hidden shadow-md">
+                <div class="p-4">
+                  <h2 class="text-xl font-semibold mb-2">Card 4</h2>
+                </div>
+              </div>
+            </div>
+
+            <div class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5 p-4">
+              <div class="bg-white rounded-lg overflow-hidden shadow-md">
+                <div class="p-4">
+                  <h2 class="text-xl font-semibold mb-2">Card 5</h2>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </BaseHtml>
+    );
+  })
   .post(
     "/create",
     async ({ body: { date, dailyBudget, dailySpent, numberOfMeals } }) => {
       const convertedDate = new Date(`${date}T00:00:00.000Z`);
-      const budget = parseFloat(dailyBudget);
-      const spent = parseFloat(dailySpent);
-      const meals = parseFloat(numberOfMeals);
+      // const budget = parseFloat(dailyBudget);
       console.log(convertedDate);
       const receipRequest = {
         date: convertedDate,
-        dailyBudget: budget,
-        dailySpent: spent,
-        numberOfMeals: meals,
-        difference: budget * meals - spent,
+        dailyBudget,
+        dailySpent,
+        numberOfMeals,
+        difference: dailyBudget * numberOfMeals - dailySpent,
       } satisfies InsertDailyReceipt;
       await db.insert(dailyReceipt).values(receipRequest);
+      return (
+        <>
+          <DebtForm date={date} dailySpent={dailySpent.toString()} />
+          <Difference />
+        </>
+      );
     },
     {
       body: t.Object({
         date: t.String(),
-        dailyBudget: t.String(),
-        dailySpent: t.String(),
-        numberOfMeals: t.String(),
+        dailyBudget: t.Numeric(),
+        dailySpent: t.Numeric(),
+        numberOfMeals: t.Numeric(),
       }),
     }
   )
