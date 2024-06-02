@@ -10,7 +10,6 @@ export const DebtForm = ({ date, dailySpent }: MyComponentProps) => {
       hx-post="/create"
       xh-swap="innerHTML"
       hx-target="closest div"
-      hx-ext="json-enc"
     >
       <h1 class="text-2xl font-semibold mb-4">Praćenje Troškova</h1>
 
