@@ -7,6 +7,7 @@
     "db:push": "bunx drizzle-kit push:sqlite"
   },
   "dependencies": {
+    "@elysiajs/cron": "^1.0.3",
     "@elysiajs/html": "^0.7.3",
     "@elysiajs/static": "^1.0.3",
     "@libsql/client": "^0.4.0-pre.2",
